@@ -828,5 +828,93 @@
       target: "#hs-form-container"
     });
   </script>
+  <script>
+    /**
+     * Find the hidden HubSpot form element once it loads.
+     */
+    function getHubSpotFormEl() {
+      return document.querySelector("#hs-form-container form");
+    }
+  
+    /**
+     * Fill and submit the hidden HubSpot form.
+     * payload keys MUST match HubSpot input 'name' attributes.
+     */
+    function submitToHubSpot(payload) {
+      const hsForm = getHubSpotFormEl();
+      if (!hsForm) {
+        console.error("HubSpot form not ready yet.");
+        return false;
+      }
+  
+      // Fill fields
+      Object.entries(payload).forEach(([key, val]) => {
+        const input = hsForm.querySelector(`[name="${key}"]`);
+        if (input) input.value = val ?? "";
+        else console.warn("HubSpot field not found:", key);
+      });
+  
+      // Submit
+      hsForm.requestSubmit ? hsForm.requestSubmit() : hsForm.submit();
+      return true;
+    }
+  
+    /**
+     * Helper: wait up to N ms for HubSpot form to exist.
+     */
+    function waitForHubSpotForm(timeoutMs = 8000) {
+      return new Promise((resolve, reject) => {
+        const start = Date.now();
+        const tick = () => {
+          const hsForm = getHubSpotFormEl();
+          if (hsForm) return resolve(hsForm);
+          if (Date.now() - start > timeoutMs) return reject(new Error("HubSpot form did not load in time."));
+          setTimeout(tick, 100);
+        };
+        tick();
+      });
+    }
+  
+    /**
+     * Example: call this from your wizard final submit handler
+     */
+    async function handleHvcoWizardFinalSubmit(formData) {
+      // Wait for HubSpot form to be present
+      try {
+        await waitForHubSpotForm();
+      } catch (e) {
+        console.error(e);
+        alert("Something loaded incorrectly. Please refresh and try again.");
+        return;
+      }
+  
+      // Build payload using HubSpot field names
+      const payload = {
+        // HubSpot default fields:
+        firstname: formData.firstName,
+        email: formData.email,
+        phone: formData.phone || "",
+  
+        // Your custom properties (must match INTERNAL names)
+        hvco_intent: formData.intent || "",
+        hvco_profile: formData.profile || "",
+  
+        hvco_visibility_level: formData.visibility || "",
+        hvco_primary_hope: formData.hope || "",
+        hvco_decision_pressure: formData.pressure || "",
+        hvco_support_preference: formData.support || "",
+        hvco_numbers_belief: formData.belief || "",
+        hvco_readiness: formData.readiness || ""
+      };
+  
+      const ok = submitToHubSpot(payload);
+      if (!ok) return;
+  
+      // Now show your custom success UI immediately (don’t wait on HubSpot)
+      document.getElementById("hvcoStart")?.style && (document.getElementById("hvcoStart").style.display = "none");
+      document.getElementById("delivery")?.style && (document.getElementById("delivery").style.display = "block");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
 </body>
 </html>
