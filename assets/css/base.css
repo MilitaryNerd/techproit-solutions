@@ -61,10 +61,23 @@ body {
   padding: 0 2rem;
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+}
+
 /* Modern Sections */
 .section {
   padding: 8rem 2rem;
   position: relative;
+}
+
+/* Remove horizontal padding on mobile to prevent double-padding with container */
+@media (max-width: 768px) {
+  .section {
+    padding: 4rem 0;
+  }
 }
 
 .section-header {
