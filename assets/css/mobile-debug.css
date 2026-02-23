@@ -1,4 +1,4 @@
-/* Mobile fix for phones - prevents horizontal overflow */
+/* Mobile fix for phones - prevents horizontal overflow (v2) */
 @media (max-width: 480px) {
   /* Reset everything to use percentages instead of vw */
   html {
