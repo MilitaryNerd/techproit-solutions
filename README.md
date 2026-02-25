@@ -4,7 +4,7 @@ Official website for TechPro Solutions LLC - Your trusted partner in cybersecuri
 
 ## 🌐 Live Site
 
-Visit us at: [techproit.solutions](https://techproit.solutions)
+Visit us at: [techproit.solutions](https://wew.techproit.solutions)
 
 ## 🏢 About TechPro Solutions
 
@@ -95,7 +95,7 @@ The site is automatically deployed via GitHub Pages integration with AWS:
 
 ## 📄 License
 
-© 2025 TechPro Solutions LLC — Your Trusted Technology Partner
+© 2026 TechPro Solutions LLC — Your Trusted Technology Partner
 
 ---
 
