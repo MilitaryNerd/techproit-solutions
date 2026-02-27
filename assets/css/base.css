@@ -214,3 +214,20 @@ footer::before {
     opacity: 0.5;
   }
 }
+
+/* Dark Mode Logo Support */
+[data-theme="light"] .logo-dark-theme {
+  display: none !important;
+}
+
+[data-theme="light"] .logo-light-theme {
+  display: block !important;
+}
+
+[data-theme="dark"] .logo-light-theme {
+  display: none !important;
+}
+
+[data-theme="dark"] .logo-dark-theme {
+  display: block !important;
+}
